@@ -92,8 +92,9 @@ class WebServer(livyConf: LivyConf, var host: String, var port: Int) extends Log
   val requestLog = new NCSARequestLog(sys.env.getOrElse("LIVY_LOG_DIR",
     sys.env("LIVY_HOME") + "/logs") + "/yyyy_mm_dd.request.log")
   requestLog.setAppend(true)
-  requestLog.setExtended(false)
-  requestLog.setLogTimeZone("GMT")
+  requestLog.setExtended(true)
+  requestLog.setLogCookies(true)
+  requestLog.setLogTimeZone(livyConf.get(LivyConf.REQUEST_LOG_TIME_ZONE))
   requestLog.setRetainDays(livyConf.getInt(LivyConf.REQUEST_LOG_RETAIN_DAYS))
   requestLogHandler.setRequestLog(requestLog)
   handlers.addHandler(requestLogHandler)
